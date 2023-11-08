@@ -1,60 +1,79 @@
-import React from 'react';
-import {calculateInvestmentResults} from '../util/investment.js'
+import React from "react";
+import { calculateInvestmentResults } from "../util/investment.js";
 
-function UserInput(props) {
+function UserInput({
+  onInitialInvesment,
+  onAnnualInvesment,
+  onExpectedReturn,
+  onDuration,
+  initalValues,
+}) {
+  function handleInitialInvesment(event) {
+    let value = event.target.value;
+    onInitialInvesment(value);
+  }
 
-    const obj = {
-        initialInvestment:15000,
-        annualInvestment:1200,
-        expectedReturn:6,
-        duration:10
-    }
+  function handleAnnualInvesment(event) {
+    let value = event.target.value;
+    onAnnualInvesment(value);
+  }
 
-    let totalInterest = 0;
-    const anndata = calculateInvestmentResults(obj);
-    const annDataCopy = [...anndata.map(data => {
-        totalInterest += data.interest;
-        let investedCap = data.valueEndOfYear - totalInterest;
-        data = {
-            ...data,
-            total : totalInterest,
-            investedCapital : investedCap
-        }
+  function handleExpectedReturn(event) {
+    let value = event.target.value;
+    onExpectedReturn(value);
+  }
 
-        return data;
-    })]
+  function handleDuration(event) {
+    let value = event.target.value;
+    onDuration(value);
+  }
 
+  console.log("in uI");
+  console.log(initalValues);
 
-    console.log(annDataCopy);
-    
-    return (
-        <div id='user-input'>
-        
-        <div className="input-group">
-        <label>Initial Invesment</label>
-        <input type="number" /> 
+  return (
+    <div id="user-input">
+      <div className="input-group">
+        <p>
+          <label>Initial Invesment</label>
+          <input
+            type="number"
+            onChange={handleInitialInvesment}
+            defaultValue={initalValues.initialInvestment}
+          />
+        </p>
 
-        <label>Annual Invesment</label>
-        <input type="number" /> 
+        <p>
+          <label>Annual Invesment</label>
+          <input
+            type="number"
+            onChange={handleAnnualInvesment}
+            defaultValue={initalValues.annualInvestment}
+          />
+        </p>
+      </div>
 
-        </div>
-<br />
+      <div className="input-group">
+        <p>
+          <label>Expected return</label>
+          <input
+            type="number"
+            onChange={handleExpectedReturn}
+            defaultValue={initalValues.expectedReturn}
+          />
+        </p>
 
-        <div className="input-group">
-        <label>Expected return</label>
-        <input type="number" /> 
-
-        <label>Duration</label>
-        <input type="number" /> 
-
-        </div>
-
-        
-
-        
-            
-        </div>
-    );
+        <p>
+          <label>Duration</label>
+          <input
+            type="number"
+            onChange={handleDuration}
+            defaultValue={initalValues.duration}
+          />
+        </p>
+      </div>
+    </div>
+  );
 }
 
 export default UserInput;
